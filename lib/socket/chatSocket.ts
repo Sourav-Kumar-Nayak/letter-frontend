@@ -1,4 +1,4 @@
-import { Client, IMessage } from "@stomp/stompjs";
+import { Client, IMessage, IStompSocket } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import type { ChatMessage } from "@/lib/api/chat";
 
@@ -7,27 +7,26 @@ const SOCKET_URL =
 
 let stompClient: Client | null = null;
 
-// ✅ Define a more robust arguments object for the connect function
+// Define a more robust arguments object for the connect function, with optional callbacks
 interface ConnectWebSocketParams {
     onMessage: (msg: ChatMessage) => void;
-    onConnectCallback: () => void;
-    onError: (err: string) => void;
+    onConnectCallback?: () => void; // Made optional
+    onError?: (err: string) => void;      // Made optional
 }
 
 export function connectWebSocket({ onMessage, onConnectCallback, onError }: ConnectWebSocketParams) {
-    // ✅ Read the auth token from local storage
     const token = localStorage.getItem("token");
 
     if (!token) {
-        onError("Authentication token not found. Cannot connect to WebSocket.");
+        // Check if onError exists before calling it
+        onError?.("Authentication token not found. Cannot connect to WebSocket.");
         return;
     }
 
-    const socket = new SockJS(SOCKET_URL);
     stompClient = new Client({
-        webSocketFactory: () => socket as any,
+        // Use the SockJS factory to create the WebSocket connection
+        webSocketFactory: () => new SockJS(SOCKET_URL) as IStompSocket,
 
-        // ✅ ADDED: Send the JWT token for authentication
         connectHeaders: {
             Authorization: `Bearer ${token}`,
         },
@@ -36,38 +35,31 @@ export function connectWebSocket({ onMessage, onConnectCallback, onError }: Conn
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
 
-        // debug: (str) => {
-        //     // Only log in development
-        //     if (process.env.NODE_ENV === 'development') {
-        //         console.log(new Date(), str);
-        //     }
-        // },
-
         onConnect: () => {
             console.log("✅ WebSocket Connected and Authenticated");
-            // Subscription to the user's private queue
             stompClient?.subscribe("/user/queue/messages", (frame: IMessage) => {
                 try {
                     const msg = JSON.parse(frame.body) as ChatMessage;
-                    onMessage(msg);
-                } catch (error) {
+                    // Check if onMessage exists before calling it
+                    onMessage?.(msg);
+                } catch (err) {
+                    // Log the error if message parsing fails
+                    console.error("Failed to parse incoming message:", frame.body, err);
                 }
             });
-
-            // ✅ ADDED: Notify the UI component that the connection is ready
-            onConnectCallback();
+            // Check if onConnectCallback exists before calling it
+            onConnectCallback?.();
         },
 
-        // ✅ ADDED: Handle connection errors
-        onError: (err) => {
+        onWebSocketError: (err) => {
             console.error("WebSocket connection error:", err);
-            onError("Connection failed. Please refresh the page.");
+            onError?.("Connection failed. Please refresh the page.");
         },
 
         onStompError: (frame) => {
             console.error("Broker reported error: " + frame.headers["message"]);
             console.error("Additional details: " + frame.body);
-            onError("An error occurred with the chat service.");
+            onError?.("An error occurred with the chat service.");
         }
     });
 
@@ -82,7 +74,6 @@ export function sendChatMessage(message: ChatMessage) {
         });
     } else {
         console.error("❌ WebSocket not connected or active. Cannot send message.");
-        // Optionally, you can add a callback here to notify the user
     }
 }
 
@@ -90,3 +81,4 @@ export function disconnectWebSocket() {
     stompClient?.deactivate();
     console.log("WebSocket disconnected.");
 }
+

@@ -17,14 +17,16 @@ export default function LoginPage() {
         setLoading(true);
         setError(null);
         try {
-            const res = await loginUser(usernameOrEmail, password);
-            console.log("✅ Login success:");
-            router.push("/chat");
-        } catch (err: any) {
-            console.error("❌ Login failed:", err);
-            setError(err.message || "An unknown error occurred. Please try again.");
-        } finally {
-            setLoading(false);
+            // ✅ FIXED: The 'res' variable was unused, so it has been removed.
+            await loginUser(usernameOrEmail, password);
+            router.push('/chat');
+            // ✅ FIXED: Replaced 'any' with proper error handling
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('An unexpected error occurred.');
+            }
         }
     };
 

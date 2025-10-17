@@ -8,13 +8,12 @@ import Spinner from "@/components/Spinner";
 import { getChatMessages, ChatMessage } from "@/lib/api/chat";
 import { connectWebSocket, disconnectWebSocket, sendChatMessage } from "@/lib/socket/chatSocket";
 
-// Helper function to format the timestamp
+// Helper and Component definitions...
 const formatTimestamp = (timestamp: string | undefined) => {
     if (!timestamp) return "";
     return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
 
-// Component for the constant chat header
 const ChatHeader = ({ user, isConnected }: { user: UserResponse; isConnected: boolean; }) => {
     return (
         <div className="flex items-center justify-between border-b p-3 bg-gray-50">
@@ -30,37 +29,31 @@ const ChatHeader = ({ user, isConnected }: { user: UserResponse; isConnected: bo
 };
 
 export default function ChatDesktopPage() {
-    // State for data and UI
+    // State hooks...
     const [users, setUsers] = useState<UserResponse[]>([]);
     const [filteredUsers, setFilteredUsers] = useState<UserResponse[]>([]);
     const [selectedUser, setSelectedUser] = useState<UserResponse | null>(null);
     const [currentUser, setCurrentUser] = useState<string | null>(null);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    // ✅ FIXED: Removed the unused 'error' state variable
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState("");
     const router = useRouter();
-
-    // State for WebSocket connection status
     const [isConnected, setIsConnected] = useState(false);
     const [socketError, setSocketError] = useState<string | null>(null);
 
-    // Refs for auto-scrolling and avoiding stale state in callbacks
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const selectedUserRef = useRef(selectedUser);
 
-    // Keep the selectedUserRef updated
     useEffect(() => {
         selectedUserRef.current = selectedUser;
     }, [selectedUser]);
 
-    // Scroll to the bottom of the chat when new messages arrive
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    // Main effect for setup, data fetching, and WebSocket connection
     useEffect(() => {
         const token = localStorage.getItem("token");
         const username = localStorage.getItem("username");
@@ -76,8 +69,13 @@ export default function ChatDesktopPage() {
                 const usersData = await getAllUsers();
                 setUsers(usersData);
                 setFilteredUsers(usersData);
-            } catch (err: any) {
-                setError(err.message || "Failed to fetch users");
+                // ✅ FIXED: Replaced 'any' with proper error handling
+            } catch (err) {
+                if (err instanceof Error) {
+                    setSocketError(err.message || "Failed to fetch users");
+                } else {
+                    setSocketError("An unknown error occurred while fetching users.");
+                }
             } finally {
                 setLoading(false);
             }
@@ -110,6 +108,8 @@ export default function ChatDesktopPage() {
         // Cleanup on component unmount
         return () => disconnectWebSocket();
     }, [router]);
+
+
 
     // Handler functions
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

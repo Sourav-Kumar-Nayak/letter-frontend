@@ -3,7 +3,7 @@ const API_BASE_URL =
 
 export interface ChatMessage {
     id?: string;
-    sender: string;
+    sender?: string;
     receiver: string;
     content: string;
     timestamp?: string;
