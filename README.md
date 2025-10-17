@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Letter Frontend
+
+A real-time chat application built with Next.js 15, React 19, and WebSocket communication using STOMP protocol.
+
+## Features
+
+- **Real-time Chat**: WebSocket-based messaging using STOMP over SockJS
+- **User Authentication**: Login system with JWT token-based authentication
+- **User Management**: User list and online/offline status tracking
+- **Modern UI**: Built with React 19 and Tailwind CSS
+- **Type-Safe**: Written in TypeScript for enhanced development experience
+
+## Tech Stack
+
+- **Framework**: Next.js 15.5.5 (React 19.1.0)
+- **Styling**: Tailwind CSS with PostCSS
+- **WebSocket**: STOMP.js 7.2.1 with SockJS Client 1.6.1
+- **Language**: TypeScript
+- **Package Manager**: npm
+
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (recommended version: 18.x or higher)
+- npm
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+2. Install dependencies:
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Set up environment variables:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Create a `.env.local` file in the root directory with the following variables:
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Development
+
+Run the development server:
+
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+
+### Build
+
+Create a production build:
+
+
+### Run Production Build
+
+
+## Features Overview
+
+### Authentication
+- User login with username and password
+- JWT token-based session management
+- Automatic token refresh
+- Protected routes
+
+### Chat
+- Real-time messaging with WebSocket
+- User list with online/offline status
+- Message history
+- Typing indicators (if implemented)
+- Message persistence
+
+### Real-time Updates
+- STOMP protocol over SockJS for reliable WebSocket connections
+- Automatic reconnection on connection loss
+- Topic-based message subscription
+
+## API Integration
+
+The application connects to a backend API for:
+- User authentication
+- Message retrieval and sending
+- User management
+
+All API endpoints are configured through the `NEXT_PUBLIC_API_URL` environment variable.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+[Add your license here]
+
+## Contact
+
+[Add your contact information here]
