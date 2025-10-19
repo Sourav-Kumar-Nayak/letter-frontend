@@ -2,7 +2,7 @@ import { Client, IMessage, IStompSocket } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import type { ChatMessage } from "@/lib/api/chat";
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_BACK_END_WS_URL;
+const SOCKET_URL = process.env.NEXT_PUBLIC_BACK_END_WS_URL!;
 
 let stompClient: Client | null = null;
 
