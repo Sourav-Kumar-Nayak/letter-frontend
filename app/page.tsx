@@ -228,7 +228,7 @@ export default function HomePage() {
                         </div>
                         <div className="mt-12 border-t border-gray-800 pt-8 text-center text-sm">
 
-                            <p>&copy; {new Date().getFullYear()} Letter Inc. All rights reserved.Made by <a href="linkedin.com/in/sourav-kumar-nayak/" className="mr-4 text-white hover:text-blue-600">@Sourav</a></p>
+                            <p>&copy; {new Date().getFullYear()} Letter Inc. All rights reserved.Made by <a href="https://www.linkedin.com/in/sourav-kumar-nayak" className="mr-4 text-white hover:text-blue-600">@Sourav</a></p>
                         </div>
                     </div>
                 </footer>
