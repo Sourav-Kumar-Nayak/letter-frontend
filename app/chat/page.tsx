@@ -21,7 +21,7 @@ const ChatHeader = ({ user, isConnected }: { user: UserResponse; isConnected: bo
                 <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-lg font-semibold text-blue-700">
                     {user.username?.charAt(0).toUpperCase()}
                 </div>
-                <span className="font-semibold text-gray-800">{user.username}</span>
+                <span className="font-semibold text-gray-800">{user.name}</span>
             </div>
             <div className={`h-3 w-3 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} title={isConnected ? 'Connected' : 'Disconnected'}></div>
         </div>
@@ -191,7 +191,7 @@ export default function ChatDesktopPage() {
                                         : "hover:bg-gray-100"
                                 }`}
                             >
-                                {u.username}
+                                {u.name}
                             </div>
                         ))}
                 </div>

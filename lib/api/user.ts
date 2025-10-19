@@ -3,6 +3,7 @@ const API_BASE_URL =
     process.env.NEXT_PUBLIC_BACK_END_API_URL || "http://localhost:8081/api";
 
 export interface UserResponse {
+    name: string;
     id: string;
     username: string;
     email?: string; // optional in case backend includes it
