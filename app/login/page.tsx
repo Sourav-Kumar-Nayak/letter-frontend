@@ -17,10 +17,8 @@ export default function LoginPage() {
         setLoading(true);
         setError(null);
         try {
-            // ✅ FIXED: The 'res' variable was unused, so it has been removed.
             await loginUser(usernameOrEmail, password);
             router.push('/chat');
-            // ✅ FIXED: Replaced 'any' with proper error handling
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -29,8 +27,6 @@ export default function LoginPage() {
             }
         }
     };
-
-    // The full-page loader is removed for better UX, as the loading state is now handled in the button.
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">

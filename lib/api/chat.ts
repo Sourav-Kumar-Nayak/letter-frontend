@@ -1,5 +1,4 @@
-const API_BASE_URL =
-    process.env.NEXT_PUBLIC_BACK_END_API_URL || "http://localhost:8081/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACK_END_API_URL;
 
 export interface ChatMessage {
     id?: string;

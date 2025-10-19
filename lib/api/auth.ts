@@ -1,6 +1,6 @@
 import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, ErrorResponse } from '@/lib/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACK_END_API_URL || "http://localhost:8081/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACK_END_API_URL;
 
 export async function loginUser(usernameOrEmail: string, password: string): Promise<LoginResponse> {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {
