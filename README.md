@@ -92,10 +92,4 @@ All API endpoints are configured through the `NEXT_PUBLIC_API_URL` environment v
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
-
-[Add your license here]
-
-## Contact
-
-[Add your contact information here]
+## Backenend link https://hub.docker.com/repository/docker/sourav041/latter-backend
